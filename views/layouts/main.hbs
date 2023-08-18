@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="toastr.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="axios.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="toastr.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      {{{body}}}
+    </div>
+
+    <script>
+      async function logout () {
+        localStorage.removeItem('token')
+        window.location.href = '/login'
+      }
+    </script>
+  </body>
+</html>

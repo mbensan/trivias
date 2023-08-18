@@ -1,0 +1,68 @@
+{{> navbar_outside}}
+
+<h2 class="text-primary text-center">Ingrese a nuestro sitio</h2>
+
+<div class="row">
+  <div class="col-4 offset-4">
+    <form id="form-signup">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" aria-describedby="emailHelp" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input required type="password" class="form-control" id="password">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Confirmar Password</label>
+        <input required type="password" class="form-control" id="pass_confirm">
+      </div>
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // 1.Obtener las variables
+  const form = document.querySelector('#form-signup')
+  const nombre = document.querySelector('#nombre')
+  const email = document.querySelector('#email')
+  const password = document.querySelector('#password')
+  const pass_confirm = document.querySelector('#pass_confirm')
+
+  // 2. Reaccionar al envio del formulario
+  form.addEventListener('submit', async function (ev) {
+    // 1. Evitamos que se recargue el formulario
+    ev.preventDefault()
+
+    // 2. Mandamos la solicitud al servidor
+    let response;
+    try {
+      response = await axios.post('/api/auth/signup', {
+        nombre: nombre.value,
+        email: email.value,
+        password: password.value,
+        pass_confirm: pass_confirm.value
+      })
+    }
+    catch(error) {
+      console.log(error)
+      toastr.error(error.response.data.err)
+      return
+    }
+
+    // 3. Guardamos el token que nos retorna el servidor
+    //  en localStorage
+    localStorage.setItem('token', response.data)
+
+    // 4. Redirijo al usuario a la página principal
+    alert('Ha entrado a la página')
+    // ..... continuará
+    window.location.href = '/'
+  })
+</script>
