@@ -6,6 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/add_question', function(req, res, next) {
+  res.render('add_question');
+});
+
 router.get('/login', function(req, res, next) {
   res.render('login');
 });

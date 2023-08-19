@@ -2,7 +2,7 @@ const { DataTypes: dt } = require('sequelize')
 const db = require('./sequelize.config')
 
 const User = db.define('user', {
-  nombre: {
+  name: {
     type: dt.STRING,
     allowNull: false,
     validate: {
@@ -30,6 +30,10 @@ const User = db.define('user', {
   foto: {
     type: dt.STRING,
   },
+  is_admin: {
+    type: dt.BOOLEAN,
+    default: false
+  }
 }, {timestamps: true})
 
 

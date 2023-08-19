@@ -7,12 +7,6 @@ const {auth_required} = require('../middlewares.js')
 const User = require('../models/users.model.js')
 
 
-const users = [
-  {id: 1, nombre: 'Carlos Salvo', email: 'csalvo@gmail.com', pass: 'abc123'},
-  {id: 1, nombre: 'Paola Brito', email: 'pbrito@gmail.com', pass: '1234'},
-  {id: 1, nombre: 'Diego Pinto', email: 'dpinto@gmail.com', pass: '1111'}
-]
-
 /* Para crear un JWT. */
 router.post('/login', async function(req, res, next) {
 
@@ -40,7 +34,7 @@ router.post('/login', async function(req, res, next) {
     data: {
       id: user.id,
       email: user.email,
-      nombre: user.nombre
+      name: user.name
     }
   }, process.env.SECRET_KEY)
 
@@ -52,10 +46,10 @@ router.post('/login', async function(req, res, next) {
 router.post('/signup', async function(req, res, next) {
 
   // 1. Recibo los parámetros del formulario
-  const {nombre, email, password, pass_confirm} = req.body
+  const {name, email, password, pass_confirm} = req.body
 
   // 2. Verificamos que los 4 campos existan
-  if (!nombre || !email || !password || !pass_confirm) {
+  if (!name || !email || !password || !pass_confirm) {
     return res.status(400).json({
       err: 'Debe ingresar todos los campos'
     })
@@ -80,8 +74,13 @@ router.post('/signup', async function(req, res, next) {
   let newUser;
   try {
     const password_encrypt = await bcrypt.hash(password, 10)
-    console.log(password_encrypt)
-    newUser = await User.create({nombre, email, password: password_encrypt})
+    const allUsers = await User.findAll()
+    if (allUsers.length == 0) {
+      newUser = await User.create({name, email, password: password_encrypt, is_admin: true})
+    }
+    else {
+      newUser = await User.create({name, email, password: password_encrypt})
+    }
   }
   catch(error) {
     return res.status(400).json(error)
@@ -95,7 +94,7 @@ router.post('/signup', async function(req, res, next) {
     data: {
       id: newUser.id,
       email,
-      nombre
+      name
     }
   }, process.env.SECRET_KEY)
 

@@ -1,6 +1,6 @@
 {{> navbar_inside}}
 
-<h1>Bienvenid@ <span id="nombre"></span></h1>
+<h1>Bienvenid@ <span id="name"></span></h1>
 <p>Cargue sus datos</p>
 
 <script>
@@ -17,7 +17,7 @@
     })
 
     console.log(data)
-    document.querySelector('#nombre').innerHTML = data.nombre
+    document.querySelector('#name').innerHTML = data.name
   }
   init()
 </script>

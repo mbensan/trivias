@@ -1,0 +1,82 @@
+{{> navbar_inside}}
+
+<div class="row">
+  <div class="col-12 col-sm-6 offset-sm-3 col-md-4 offset-md-4">
+    <!-- acá va el formulario -->
+    <form id="form-question">
+      <div class="form-floating mb-3">
+        <textarea class="form-control" placeholder="Pregunta" id="question" required></textarea>
+        <label for="floatingTextarea">Pregunta</label>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Respuesta Correcta</label>
+        <input type="text" class="form-control" id="correct" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Respuesta Incorrecta 1</label>
+        <input type="text" class="form-control" id="incorrect1" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Respuesta Incorrecta 2</label>
+        <input type="text" class="form-control" id="incorrect2" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Respuesta Incorrecta 3</label>
+        <input type="text" class="form-control" id="incorrect3">
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Respuesta Incorrecta 4</label>
+        <input type="text" class="form-control" id="incorrect4">
+      </div>
+      
+      
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('form-question')
+
+  const question = document.getElementById('question')
+  const correct = document.getElementById('correct')
+  const incorrect1 = document.getElementById('incorrect1')
+  const incorrect2 = document.getElementById('incorrect2')
+  const incorrect3 = document.getElementById('incorrect3')
+  const incorrect4 = document.getElementById('incorrect4')
+
+  form.addEventListener('submit', async function (ev) {
+    ev.preventDefault()
+
+    const token = localStorage.getItem('token')
+
+    try {
+      await axios.post(
+        // Ruta donde voy a mandar la solicitud POST
+        '/api/questions',
+        // los datos del body
+        {
+          question: question.value.trim(),
+          correct: correct.value.trim(),
+          incorrect1: incorrect1.value.trim(),
+          incorrect2: incorrect2.value.trim(),
+          incorrect3: incorrect3.value.trim(),
+          incorrect4: incorrect4.value.trim(),
+        },
+        // headers
+        {
+          headers: {
+            authorization: token
+          }
+        }
+      )
+    }
+    catch (error) {
+      console.log(error)
+      return
+    }
+    // limpiamos el formulario
+    form.reset()
+    toastr.success('Pregunta agregada')
+  })
+</script>

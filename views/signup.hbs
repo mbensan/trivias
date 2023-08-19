@@ -7,7 +7,7 @@
     <form id="form-signup">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre" aria-describedby="emailHelp" required>
+        <input type="text" class="form-control" id="name" aria-describedby="emailHelp" required>
       </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -30,7 +30,7 @@
 <script>
   // 1.Obtener las variables
   const form = document.querySelector('#form-signup')
-  const nombre = document.querySelector('#nombre')
+  const name = document.querySelector('#name')
   const email = document.querySelector('#email')
   const password = document.querySelector('#password')
   const pass_confirm = document.querySelector('#pass_confirm')
@@ -44,7 +44,7 @@
     let response;
     try {
       response = await axios.post('/api/auth/signup', {
-        nombre: nombre.value,
+        name: name.value,
         email: email.value,
         password: password.value,
         pass_confirm: pass_confirm.value
